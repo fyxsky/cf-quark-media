@@ -86,6 +86,12 @@ npm run deploy
 
 此方式适合从模板快速起项目；如果你不想新增仓库，请用方式 B。
 
+一键部署（当前仓库）：
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/fyxsky/cf-quark-media)
+
+自定义仓库按钮模板（请替换）：
+
 ```md
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/<你的用户名>/<你的仓库名>)
 ```
