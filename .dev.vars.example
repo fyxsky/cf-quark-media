@@ -1,0 +1,10 @@
+# 可选：自定义统一搜索 API（例如自建 yz_pansearch_api）
+# 若不配置，将默认使用趣盘搜 funletu（免 Cookie）
+# PANSEARCH_API_BASE_URL="https://your-api.example.com"
+# PANSEARCH_API_TOKEN="your-token"
+
+# Quark 账号配置（强烈建议用 wrangler secret 存）
+QUARK_COOKIE="__puus=...;__pus=...;..."
+QUARK_TARGET_FOLDER_ID="0"
+QUARK_PR="ucpro"
+QUARK_FR="pc"

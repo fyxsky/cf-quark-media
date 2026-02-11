@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>影视转存助手 · UI Ux Pro Max 版</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap");
+
+      :root {
+        --bg: #edf2ff;
+        --bg-2: #e9fbf6;
+        --surface: #ffffff;
+        --surface-2: #f6f8ff;
+        --text: #17233f;
+        --muted: #4f5f86;
+        --line: #c4ceee;
+        --primary: #355cf4;
+        --primary-2: #0cb892;
+        --danger: #ca3759;
+        --radius-lg: 18px;
+        --radius-md: 12px;
+        --radius-sm: 9px;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "IBM Plex Sans", "PingFang SC", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 8% 5%, rgba(53, 92, 244, 0.24), transparent 36%),
+          radial-gradient(circle at 93% 93%, rgba(12, 184, 146, 0.23), transparent 34%),
+          linear-gradient(180deg, #f5f8ff 0%, #ecf1ff 54%, #eefbf7 100%);
+      }
+
+      .layout {
+        max-width: 1680px;
+        margin: 0 auto;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 330px minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .panel,
+      .main {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: color-mix(in oklab, var(--surface) 84%, #eef4ff);
+        box-shadow: 0 18px 36px rgba(44, 66, 132, 0.13);
+      }
+
+      .panel {
+        padding: 16px;
+        position: sticky;
+        top: 14px;
+        height: calc(100vh - 28px);
+        overflow: auto;
+      }
+
+      .brand {
+        font-family: "Plus Jakarta Sans", "PingFang SC", sans-serif;
+        font-size: 29px;
+        line-height: 1.1;
+        margin: 0;
+      }
+
+      .desc {
+        font-size: 13px;
+        color: var(--muted);
+        margin: 10px 0 14px;
+      }
+
+      .mode-links {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .mode-links a {
+        text-decoration: none;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .mode-links a.active {
+        background: linear-gradient(130deg, var(--primary), #6a7ff8);
+        color: #fff;
+        border-color: #284be1;
+      }
+
+      .group {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface-2);
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      .group h3 {
+        margin: 0 0 8px;
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.3px;
+      }
+
+      .row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+      .row:last-child { margin-bottom: 0; }
+
+      input, button {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        padding: 9px 11px;
+        font-size: 14px;
+      }
+
+      input {
+        width: 100%;
+        background: #fff;
+        color: var(--text);
+      }
+
+      button {
+        background: linear-gradient(130deg, var(--primary), color-mix(in oklab, var(--primary) 65%, var(--primary-2)));
+        color: #fff;
+        border-color: #2c4ce2;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .secondary { background: #596480; border-color: #525b73; }
+      .danger { background: var(--danger); border-color: #ac2847; }
+
+      .main {
+        padding: 16px;
+        display: grid;
+        grid-template-rows: auto auto minmax(0, 1fr);
+        gap: 12px;
+        min-height: calc(100vh - 40px);
+      }
+
+      .top {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .top .title {
+        font-family: "Plus Jakarta Sans", "PingFang SC", sans-serif;
+        font-size: 28px;
+        margin: 0;
+      }
+
+      .top .hint {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .searchbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: start;
+      }
+
+      .dir-picker-wrap {
+        width: 100%;
+      }
+      .dir-picker {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        gap: 8px;
+      }
+
+      .dir-dropdown {
+        position: static;
+        z-index: 40;
+        max-height: 300px;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        padding: 8px;
+        margin-top: 8px;
+      }
+
+      .dir-dropdown.hidden { display: none; }
+      .dir-tree { list-style: none; margin: 0; padding: 0; }
+      .dir-tree li { margin: 0; padding: 5px 2px; }
+      .dir-node { display: flex; gap: 6px; align-items: center; }
+      .dir-expand, .dir-name {
+        border: none;
+        background: transparent;
+        color: #2144c2;
+        cursor: pointer;
+        padding: 0;
+        text-align: left;
+      }
+      .dir-children { margin-left: 18px; }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 12px;
+        min-height: 0;
+      }
+
+      .col {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: rgba(255,255,255,0.62);
+        padding: 10px;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        min-height: 0;
+      }
+
+      .col-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .col-head .label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .scroller {
+        min-height: 0;
+        overflow: auto;
+      }
+
+      ul { list-style: none; margin: 0; padding: 0; }
+      li {
+        margin-bottom: 8px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        padding: 8px;
+      }
+
+      .search-row {
+        display: grid;
+        grid-template-columns: 26px minmax(0, 1fr);
+        gap: 8px;
+      }
+
+      .search-row.selected { background: rgba(53, 92, 244, 0.12); }
+
+      .item-title { font-weight: 700; margin-bottom: 4px; }
+      .item-url { font-size: 12px; color: #60709d; word-break: break-all; }
+
+      .files-box {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        min-height: 100%;
+      }
+      .files-box li {
+        margin: 0;
+        border: none;
+        border-bottom: 1px dashed #d7def5;
+        border-radius: 0;
+      }
+      .files-box li:last-child { border-bottom: none; }
+
+      .file-row {
+        display: grid;
+        grid-template-columns: 26px minmax(0, 1fr);
+        gap: 8px;
+        align-items: center;
+      }
+      .file-content { min-width: 0; }
+      .file-name-btn, .file-name {
+        border: none;
+        background: transparent;
+        color: #15316f;
+        font-size: 14px;
+        padding: 0;
+        text-align: left;
+        cursor: pointer;
+        white-space: normal;
+        word-break: break-word;
+      }
+      .folder-children { margin-left: 20px; }
+
+      .log {
+        margin-top: 10px;
+        border: 1px dashed var(--line);
+        border-radius: 10px;
+        background: #f8faff;
+        padding: 10px;
+        min-height: 110px;
+        max-height: 260px;
+        overflow: auto;
+        white-space: pre-wrap;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 12px;
+      }
+
+      .modal-mask {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(10, 16, 32, .45);
+        z-index: 2200;
+      }
+      .modal-mask.open { display: flex; }
+      .modal {
+        width: min(92vw, 400px);
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px;
+      }
+      .modal-title { margin: 0 0 8px; font-size: 24px; }
+      .qr-wrap { border: 1px dashed var(--line); border-radius: 10px; padding: 10px; text-align: center; }
+      .qr-wrap img { width: 220px; height: 220px; max-width: 100%; display: block; margin: 0 auto 8px; }
+      .status-text { font-size: 13px; color: #596992; }
+      .modal-row { margin-top: 10px; display: flex; justify-content: flex-end; gap: 8px; }
+
+      .marquee-box {
+        position: fixed;
+        display: none;
+        pointer-events: none;
+        z-index: 2300;
+        border: 1px dashed #355cf4;
+        background: rgba(53, 92, 244, .11);
+      }
+
+      @media (max-width: 1200px) {
+        .layout { grid-template-columns: 1fr; }
+        .panel { position: static; height: auto; }
+      }
+      @media (max-width: 980px) {
+        .workspace { grid-template-columns: 1fr; }
+        .searchbar { grid-template-columns: 1fr; }
+        .dir-picker { grid-template-columns: 1fr auto auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="panel">
+        <h1 class="brand">影视资源转存助手</h1>
+
+        <div class="mode-links">
+          <a href="/fd.html">Frontend Design 版</a>
+          <a class="active" href="/upm.html">UI Ux Pro Max 版</a>
+          <a href="/">返回入口</a>
+        </div>
+
+        <div class="group">
+          <h3>状态与快捷操作</h3>
+          <div class="row">
+            <button id="healthBtn">检测 Quark 状态</button>
+            <button id="refreshFilesBtn">刷新目录文件</button>
+          </div>
+        </div>
+
+        <div class="group">
+          <h3>账号凭据</h3>
+          <div class="row"><input id="quarkCookie" placeholder="粘贴 Quark Cookie（可覆盖后端默认配置）" /></div>
+          <div class="row">
+            <button id="saveQuarkCookieBtn">保存Cookie</button>
+            <button id="scanLoginBtn" class="secondary">扫码登录</button>
+          </div>
+        </div>
+
+        <div class="group">
+          <h3>目录配置</h3>
+          <div class="dir-picker-wrap">
+            <div class="row"><input id="quarkTargetDir" placeholder="目标目录：可手填，或点“选择目录”从网盘树选择" /></div>
+            <div class="row">
+              <button id="openDirPickerBtn" class="secondary">选择目录</button>
+              <button id="saveQuarkDirBtn">保存目录</button>
+            </div>
+            <div id="dirDropdown" class="dir-dropdown hidden">
+              <div style="margin-bottom:6px;"><button id="pickRootBtn" class="secondary">选择根目录 /</button></div>
+              <ul id="dirTree" class="dir-tree"><li>加载中...</li></ul>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="top">
+          <h2 class="title">工作台</h2>
+        </div>
+
+        <div class="searchbar">
+          <input id="keyword" placeholder="输入电影/电视剧名称，如：流浪地球" />
+          <button id="searchBtn">搜索</button>
+        </div>
+
+        <section class="workspace">
+          <article class="col">
+            <div class="col-head">
+              <div class="label">搜索结果</div>
+              <button id="saveSelectedSearchBtn">保存到网盘</button>
+            </div>
+            <div id="searchScrollBox" class="scroller"><ul id="resultList"></ul></div>
+          </article>
+
+          <article class="col">
+            <div class="col-head">
+              <div class="label">目标目录现有文件</div>
+              <button id="deleteSelectedBtn" class="danger">删除选中</button>
+            </div>
+            <div class="scroller">
+              <div class="files-box"><ul id="folderList"><li>尚未加载</li></ul></div>
+            </div>
+            <div id="log" class="log">等待操作...</div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div id="qrModal" class="modal-mask">
+      <div class="modal">
+        <h3 class="modal-title">扫码登录 Quark</h3>
+        <div class="qr-wrap">
+          <img id="qrImage" alt="扫码二维码" />
+          <div id="qrStatus" class="status-text">准备中...</div>
+        </div>
+        <div class="modal-row">
+          <button id="qrRefreshBtn">重新生成</button>
+          <button id="qrCloseBtn" class="secondary">关闭</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="marqueeBox" class="marquee-box"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "cf-quark-media",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260125.0",
+    "typescript": "^5.7.3",
+    "wrangler": "^4.49.0"
+  }
+}
