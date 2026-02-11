@@ -71,17 +71,24 @@ npx wrangler whoami
 npm run deploy
 ```
 
-### 方式 B：GitHub 一键部署（Deploy to Cloudflare）
+### 方式 B：直接连接已有 GitHub 仓库（推荐）
 
-先把项目推到 GitHub 仓库后，把下面按钮中的仓库地址替换成你的：
+如果你已经有仓库（例如 `fyxsky/cf-quark-media`），建议在 Cloudflare Dashboard 里直接连接：
+
+1. Workers & Pages → Create  
+2. 选择 **Connect to Git / Import existing repository**  
+3. 选择已有仓库与分支（如 `main`）  
+4. 配置环境变量并部署
+
+> 说明：这种方式不会新建 GitHub 仓库，只是把 Cloudflare 项目绑定到你现有仓库。
+
+### 方式 C：Deploy to Cloudflare 按钮（会创建/复制仓库）
+
+此方式适合从模板快速起项目；如果你不想新增仓库，请用方式 B。
 
 ```md
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/<你的用户名>/<你的仓库名>)
 ```
-
-实际示例（请替换）：
-
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/fyxsky/cf-quark-media)
 
 ## API 列表
 
