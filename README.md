@@ -81,7 +81,7 @@ npm run deploy
 
 实际示例（请替换）：
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/fyxsky/cf-quark-media-worker)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/fyxsky/cf-quark-media)
 
 ## API 列表
 
