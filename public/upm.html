@@ -126,6 +126,14 @@
         background: #fff;
         color: var(--text);
       }
+      input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        padding: 0;
+        margin: 0;
+        border-radius: 4px;
+        accent-color: var(--primary);
+      }
 
       button {
         background: linear-gradient(130deg, var(--primary), color-mix(in oklab, var(--primary) 65%, var(--primary-2)));
@@ -253,6 +261,7 @@
         display: grid;
         grid-template-columns: 26px minmax(0, 1fr);
         gap: 8px;
+        align-items: start;
       }
 
       .search-row.selected { background: rgba(53, 92, 244, 0.12); }
